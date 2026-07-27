@@ -7,13 +7,7 @@ import { Venue } from "@/types/venue";
 interface BookingModalProps {
   venue: Venue | null;
   isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: {
-    customerName: string;
-    mobileNumber: string;
-    eventDate: string;
-    venueId: string;
-  }) => void;
+  setIsBookingModalOpen: (isOpen: boolean) => void;
 }
 
 interface FormErrors {
@@ -27,13 +21,13 @@ const PHONE_REGEX = /^[6-9]\d{9}$/;
 export default function BookingModal({
   venue,
   isOpen,
-  onClose,
-  onSubmit,
+  setIsBookingModalOpen,
 }: BookingModalProps) {
   const [customerName, setCustomerName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen || !venue) {
     return null;
@@ -48,7 +42,7 @@ export default function BookingModal({
 
   const handleClose = () => {
     resetForm();
-    onClose();
+    setIsBookingModalOpen(false);
   };
 
   const validate = (): boolean => {
@@ -72,20 +66,43 @@ export default function BookingModal({
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validate()) {
       return;
     }
 
-    onSubmit({
-      customerName: customerName.trim(),
-      mobileNumber: mobileNumber.trim(),
-      eventDate,
-      venueId: venue.id,
-    });
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerName: customerName,
+          mobileNumber: mobileNumber,
+          eventDate,
+          venueId: venue._id,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit booking");
+        setLoading(false);
+      }
+      const data = await response.json();
+      console.log("Booking successful:", data);
+      alert(
+        `Booking confirmed for ${venue.name} on ${eventDate}. booking ID: ${data._id}`,
+      );
+    } catch (error) {
+      setLoading(false);
+      console.error("Error submitting booking:", error);
+    }
 
+    setIsBookingModalOpen(false);
+    setLoading(false);
     resetForm();
   };
 
@@ -204,7 +221,7 @@ export default function BookingModal({
             type="submit"
             className="mt-2 w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-800"
           >
-            Confirm Booking
+            {loading ? "Confirming..." : "Confirm Booking"}
           </button>
         </form>
       </div>

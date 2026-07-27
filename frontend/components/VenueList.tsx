@@ -27,7 +27,7 @@ export default function VenueList({ venues, onBookNow }: VenueListProps) {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {venues.map((venue) => (
-        <VenueCard key={venue.id} venue={venue} onBookNow={onBookNow} />
+        <VenueCard key={venue._id} venue={venue} onBookNow={onBookNow} />
       ))}
     </div>
   );

@@ -1,65 +1,93 @@
-import Image from "next/image";
+"use client";
+
+import { useMemo, useState, useEffect } from "react";
+import { Venue } from "@/types/venue";
+import SearchAndFilter from "@/components/SearchAndFilter";
+import VenueList from "@/components/VenueList";
+import BookingModal from "@/components/BookingModal";
+import { Loader, Loader2Icon } from "lucide-react";
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [venues, setVenues] = useState<Venue[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      setLoading(true);
+      try {
+        let response = await fetch(
+          `http://localhost:8000/api/v1/venues?search=${searchQuery}&city=${selectedCity}&sort=${sortBy}`,
+        );
+
+        // Assuming the API returns an array of venues
+        let data = await response.json();
+        setVenues(data);
+        // console.log("Fetched venues:", data);
+        // You can update your state here if needed
+      } catch (error) {
+        console.error("Error fetching venues:", error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [searchQuery, selectedCity, sortBy]);
+
+  const cities = [
+    "Mumbai",
+    "Delhi",
+    "Bangalore",
+    "Goa",
+    "Agra",
+    "Chennai",
+    "Udaipur",
+  ];
+
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
+  const handleBookNow = (venue: Venue) => {
+    setSelectedVenue(venue);
+    setIsBookingModalOpen(true);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
+      <BookingModal
+        venue={selectedVenue}
+        isOpen={isBookingModalOpen}
+        setIsBookingModalOpen={setIsBookingModalOpen}
+      />
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Find Your Perfect Event Venue
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-2 text-sm text-gray-500 sm:text-base">
+            Browse and book top-rated venues across India for your next event.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="mb-8">
+          <SearchAndFilter
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedCity={selectedCity}
+            setSelectedCity={setSelectedCity}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            cities={cities}
+          />
         </div>
-      </main>
-    </div>
+        {loading ? (
+          <div className="flex h-96 w-full items-center justify-center">
+            {" "}
+            <Loader2Icon className="text-black animate-spin" />
+          </div>
+        ) : (
+          <VenueList venues={venues} onBookNow={handleBookNow} />
+        )}
+      </div>
+    </main>
   );
 }

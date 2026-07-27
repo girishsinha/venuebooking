@@ -18,10 +18,10 @@ export default function VenueCard({ venue, onBookNow }: VenueCardProps) {
     <div className="group flex w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Image */}
       <div className="relative h-52 w-full overflow-hidden">
-        <Image
+        <img
           src={venue.image}
           alt={venue.name}
-          fill
+          //   fill
           sizes="(max-width: 768px) 100vw, 384px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
