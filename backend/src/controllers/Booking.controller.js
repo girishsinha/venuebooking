@@ -1,4 +1,4 @@
-import Booking from "../models/booking.model.js";
+import Booking from "../models/Booking.model.js";
 import Venue from "../models/Venue.model.js";
 
 const PHONE_REGEX = /^\d{10}$/;
