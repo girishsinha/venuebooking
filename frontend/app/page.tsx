@@ -19,7 +19,7 @@ export default function Home() {
       setLoading(true);
       try {
         let response = await fetch(
-          `http://localhost:8000/api/v1/venues?search=${searchQuery}&city=${selectedCity}&sort=${sortBy}`,
+          `${process.env.API}/api/v1/venues?search=${searchQuery}&city=${selectedCity}&sort=${sortBy}`,
         );
 
         // Assuming the API returns an array of venues

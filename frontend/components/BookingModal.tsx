@@ -75,7 +75,7 @@ export default function BookingModal({
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/api/v1/bookings", {
+      const response = await fetch(`${process.env.API}/api/v1/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
