@@ -19,7 +19,7 @@ export default function Home() {
       setLoading(true);
       try {
         let response = await fetch(
-          `${process.env.API}/api/v1/venues?search=${searchQuery}&city=${selectedCity}&sort=${sortBy}`,
+          `${process.env.NEXT_PUBLIC_API}/api/v1/venues?search=${searchQuery}&city=${selectedCity}&sort=${sortBy}`,
         );
 
         // Assuming the API returns an array of venues
