@@ -7,6 +7,7 @@ import VenueList from "@/components/VenueList";
 import BookingModal from "@/components/BookingModal";
 import { Loader, Loader2Icon } from "lucide-react";
 import HeroSection from "@/components/HeroSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,7 +57,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <HeroSection />
-      <main className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8z-40">
         <BookingModal
           venue={selectedVenue}
           isOpen={isBookingModalOpen}
@@ -84,6 +85,7 @@ export default function Home() {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

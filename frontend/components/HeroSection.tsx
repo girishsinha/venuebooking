@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <div className="relative sm:h-screen h-[50vh] w-full overflow-hidden ">
+    <div className="relative sm:h-screen h-[50vh] w-full overflow-hidden z-0 ">
       <Image
         src="/Gemini_Generated_Image_li8acmli8acmli8a.png"
         height={800}

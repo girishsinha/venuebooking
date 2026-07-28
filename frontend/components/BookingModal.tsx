@@ -119,7 +119,7 @@ export default function BookingModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-gray-100 p-5">
+        <div className="flex items-start justify-between border-b border-primary/30 p-5">
           <div>
             <h2
               id="booking-modal-title"
@@ -160,7 +160,7 @@ export default function BookingModal({
               className={`w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:outline-none focus:ring-2 ${
                 errors.customerName
                   ? "border-red-300 focus:ring-red-500/20"
-                  : "border-gray-200 focus:border-indigo-500 focus:ring-indigo-500/20"
+                  : "border-primary/20 focus:border-primary/30 focus:ring-primary/30"
               }`}
             />
             {errors.customerName && (
@@ -185,7 +185,7 @@ export default function BookingModal({
               className={`w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:outline-none focus:ring-2 ${
                 errors.mobileNumber
                   ? "border-red-300 focus:ring-red-500/20"
-                  : "border-gray-200 focus:border-indigo-500 focus:ring-indigo-500/20"
+                  : "border-primary/20 focus:border-primary/30 focus:ring-primary/30"
               }`}
             />
             {errors.mobileNumber && (
@@ -209,7 +209,7 @@ export default function BookingModal({
               className={`w-full rounded-xl border bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:bg-white focus:outline-none focus:ring-2 ${
                 errors.eventDate
                   ? "border-red-300 focus:ring-red-500/20"
-                  : "border-gray-200 focus:border-indigo-500 focus:ring-indigo-500/20"
+                  : "border-primary/20 focus:border-primary/30 focus:ring-primary/30"
               }`}
             />
             {errors.eventDate && (
@@ -219,7 +219,7 @@ export default function BookingModal({
 
           <button
             type="submit"
-            className="mt-2 w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-800"
+            className="mt-2 w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:bg-primary/90"
           >
             {loading ? "Confirming..." : "Confirm Booking"}
           </button>

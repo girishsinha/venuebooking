@@ -15,7 +15,7 @@ export default function VenueCard({ venue, onBookNow }: VenueCardProps) {
   }).format(venue.price);
 
   return (
-    <div className="group flex w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <div className="group flex w-full max-w-sm flex-col overflow-hidden rounded-xl bg-white shadow-md ring-1 ring-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Image */}
       <div className="relative h-52 w-full overflow-hidden">
         <img
@@ -34,7 +34,9 @@ export default function VenueCard({ venue, onBookNow }: VenueCardProps) {
       {/* Content */}
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">{venue.name}</h3>
+          <h3 className="text-lg font-semibold text-foreground">
+            {venue.name}
+          </h3>
           <div className="mt-1 flex items-center gap-1 text-sm text-gray-500">
             <MapPin className="h-4 w-4" />
             <span>{venue.city}</span>
@@ -55,7 +57,7 @@ export default function VenueCard({ venue, onBookNow }: VenueCardProps) {
         <button
           type="button"
           onClick={() => onBookNow(venue)}
-          className="mt-2 w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-indigo-800"
+          className="mt-2 w-full rounded-xl bg-primary/95 px-4 py-2.5 text-sm font-semibold text-background shadow-sm transition-colors duration-200 hover:bg-primary/80 focus:outline-none focus:ring-2 focus:primary focus:ring-offset-2 active:bg-primary"
         >
           Book Now
         </button>
