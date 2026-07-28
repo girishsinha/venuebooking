@@ -6,6 +6,7 @@ import SearchAndFilter from "@/components/SearchAndFilter";
 import VenueList from "@/components/VenueList";
 import BookingModal from "@/components/BookingModal";
 import { Loader, Loader2Icon } from "lucide-react";
+import HeroSection from "@/components/HeroSection";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,41 +54,36 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
-      <BookingModal
-        venue={selectedVenue}
-        isOpen={isBookingModalOpen}
-        setIsBookingModalOpen={setIsBookingModalOpen}
-      />
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Find Your Perfect Event Venue
-          </h1>
-          <p className="mt-2 text-sm text-gray-500 sm:text-base">
-            Browse and book top-rated venues across India for your next event.
-          </p>
-        </div>
-        <div className="mb-8">
-          <SearchAndFilter
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            selectedCity={selectedCity}
-            setSelectedCity={setSelectedCity}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-            cities={cities}
-          />
-        </div>
-        {loading ? (
-          <div className="flex h-96 w-full items-center justify-center">
-            {" "}
-            <Loader2Icon className="text-black animate-spin" />
+    <div className="flex min-h-screen flex-col">
+      <HeroSection />
+      <main className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+        <BookingModal
+          venue={selectedVenue}
+          isOpen={isBookingModalOpen}
+          setIsBookingModalOpen={setIsBookingModalOpen}
+        />
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8">
+            <SearchAndFilter
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              selectedCity={selectedCity}
+              setSelectedCity={setSelectedCity}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              cities={cities}
+            />
           </div>
-        ) : (
-          <VenueList venues={venues} onBookNow={handleBookNow} />
-        )}
-      </div>
-    </main>
+          {loading ? (
+            <div className="flex h-96 w-full items-center justify-center">
+              {" "}
+              <Loader2Icon className="text-black animate-spin" />
+            </div>
+          ) : (
+            <VenueList venues={venues} onBookNow={handleBookNow} />
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
