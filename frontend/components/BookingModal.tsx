@@ -75,18 +75,21 @@ export default function BookingModal({
 
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.API}/api/v1/bookings`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/api/v1/bookings`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customerName: customerName,
+            mobileNumber: mobileNumber,
+            eventDate,
+            venueId: venue._id,
+          }),
         },
-        body: JSON.stringify({
-          customerName: customerName,
-          mobileNumber: mobileNumber,
-          eventDate,
-          venueId: venue._id,
-        }),
-      });
+      );
       if (!response.ok) {
         throw new Error("Failed to submit booking");
         setLoading(false);
